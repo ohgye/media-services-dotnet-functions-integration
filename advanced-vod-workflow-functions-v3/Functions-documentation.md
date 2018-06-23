@@ -9,6 +9,12 @@ author: shigeyf
 This section lists the functions available and describes the input and output parameters.
 This Functions example is based on AMS REST API v3 and pre-compiled functions.
 
+- [CreateEmptyAsset](#CreateEmptyAsset)
+- [CreateTransform](#CreateTransform)
+- [MonitorBlobContainerCopyStatus](#MonitorBlobContainerCopyStatus)
+- [MonitorMediaJob](#MonitorMediaJob)
+- [StartBlobContainerCopyToAsset](#StartBlobContainerCopyToAsset)
+- [SubmitMediaJob](#SubmitMediaJob)
 
 
 ## CreateEmptyAsset
@@ -125,6 +131,8 @@ Input:
     {
         // Name of the media job
         "jobName": "amsv3function-job-24369d2e-7415-4ff5-ba12-b8a879a15401",
+        // Name of the Transform for the media job
+        "transformName": "TestTransform"
     }
 Output:
     {
