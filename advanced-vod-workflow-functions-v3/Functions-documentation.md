@@ -9,7 +9,7 @@ author: shigeyf
 This section lists the functions available and describes the input and output parameters.
 This Functions example is based on AMS REST API v3 and pre-compiled functions.
 
-# Function List
+# Functions List
 
 - [CreateEmptyAsset](#createemptyasset)
 - [CreateTransform](#createtransform)
