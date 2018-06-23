@@ -3,20 +3,31 @@
 //
 // SubmitMediaJob - This function submits media job.
 //
-//  Input:
-//      {
-//          "inputAssetName":  "Name of the asset for input",
-//          "transformName":  "Name of the Transform",
-//          "outputAssetNamePrefix":  "Name of the asset for output"
-//          "assetStorageAccount":  "Name of attached storage where to create the asset"  // (optional)  
-//      }
-//  Output:
-//      {
-//          "jobName":  "Name of media Job"
-//          "encoderOutputAssetName": "string",
-//          "videoAnalyzerOutputAssetName": "string"
-//      }
-//
+/*
+```c#
+Input:
+    {
+        // Name of the Asset for media job input
+        "inputAssetName": "TestAssetName-180c777b-cd3c-4e02-b362-39b8d94d7a85",
+        // Name of the Transform for media job
+        "transformName": "TestTransform",
+        // Name of the Assets for media job outputs
+        "outputAssetNamePrefix": "TestOutputAssetName",
+        // (Optional) Name of attached storage account where to create the Output Assets
+        "assetStorageAccount": "storage01"
+    }
+Output:
+    {
+        // Name of media Job
+        "jobName": "amsv3function-job-24369d2e-7415-4ff5-ba12-b8a879a15401",
+        // Name of Encdoer Output Asset
+        "encoderOutputAssetName": "out-testasset-e389de79-3aa5-4a5a-a9ca-2a6fd8c53968",
+        // Name of Video Analyzer Output Asset
+        "videoAnalyzerOutputAssetName": "out-testasset-00cd363b-5fe0-4da1-acf8-ebd66ef14504"
+    }
+
+```
+*/
 //
 
 using System;
@@ -33,8 +44,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Converters;
 
 using advanced_vod_functions_v3.SharedLibs;
 
@@ -46,7 +55,7 @@ namespace advanced_vod_functions_v3
         [FunctionName("SubmitMediaJob")]
         public static IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]HttpRequest req, TraceWriter log)
         {
-            log.Info($"AMS v3 Function - CreateEmptyAsset was triggered!");
+            log.Info($"AMS v3 Function - SubmitMediaJob was triggered!");
 
             string requestBody = new StreamReader(req.Body).ReadToEnd();
             dynamic data = JsonConvert.DeserializeObject(requestBody);

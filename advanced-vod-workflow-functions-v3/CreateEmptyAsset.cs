@@ -3,26 +3,28 @@
 //
 // CreateEmptyAsset - This function creates an empty asset.
 //
-//  Input:
-//      {
-//          "assetNamePrefix": "testasset",         // Name of the asset
-//          "assetCreationOption": "None",          // (Optional) Name of asset creation option
-//          "assetStorageAccount":  "storage01"     // (Optional) Name of attached storage account where to create the asset
-//      }
-//      // https://docs.microsoft.com/en-us/rest/api/media/operations/asset#asset_entity_properties
-//      //      None                            Normal asset type (no encryption)
-//      //      StorageEncrypted                Storage Encryption encrypted asset type
-//      //      CommonEncryptionProtected       Common Encryption encrypted asset type
-//      //      EnvelopeEncryptionProtected     Envelope Encryption encrypted asset type
-//  Output:
-//      {
-//          "assetName":                            // Name of the asset created
-//              "testasset-4ba0b3ed-29e2-4e7c-aa5a-6e027eccac20",
-//          "assetId":                              // Id of the asset created
-//              "nb:cid:UUID:68adb036-43b7-45e6-81bd-8cf32013c810"
-//          "destinationContainer":                 // Name of the destination container name for the asset created
-//              "asset-68adb036-43b7-45e6-81bd-8cf32013c810"
-//      }
+/*
+```c#
+Input:
+    {
+        // Name of the asset
+        "assetNamePrefix": "TestAssetName",
+        // (Optional) Name of attached storage account where to create the asset
+        "assetStorageAccount":  "storage01"
+    }
+Output:
+    {
+        // Name of the asset created
+        "assetName": "TestAssetName-180c777b-cd3c-4e02-b362-39b8d94d7a85",
+        // Id of the asset created
+        "assetId": "nb:cid:UUID:68adb036-43b7-45e6-81bd-8cf32013c810",
+        // Name of the destination container name for the asset created
+        "destinationContainer": "destinationContainer": "asset-4a5f429c-686c-4f6f-ae86-4078a4e6139e"
+    }
+
+```
+*/
+//
 //
 
 using System;

@@ -1,28 +1,44 @@
 //
 // Azure Media Services REST API v3 Functions
 //
-// CreateEmptyAsset - This function creates an empty asset.
+// CreateTransform - This function creates a new transform.
 //
-//  Input:
-//      {
-//          "transformName": "TestTransform"        // "Name of the Transform",
-//          "builtInStandardEncoderPreset":
-//          {
-//              "presetName": "string"  // string (default: AdaptiveStreaming)
-//          }
-//          "videoAnalyzerPreset":
-//          {
-//              "audioInsightsOnly": true|false,    // boolean: Whether to only extract audio insights when processing a video file
-//              "audioLanguage": "en-US"           // string: The language for the audio payload in the input using the BCP-47 format of 'language tag-region' (e.g: 'en-US').
+/*
+```c#
+Input:
+    {
+        // Name of the Transform
+        "transformName": "TestTransform",
+        // Array of presets for the Transform
+        "transformOutputs": [
+            {
+                "onError": "StopProcessingJob",
+                "relativePriority": "Normal",
+                "preset": {
+                    "@odata.type": "#Microsoft.Media.BuiltInStandardEncoderPreset",
+                    "presetName": "AdaptiveStreaming"
+                }
+            },
+            {
+                "onError": "StopProcessingJob",
+                "relativePriority": "Normal",
+                "preset": {
+                    "@odata.type": "#Microsoft.Media.VideoAnalyzerPreset",
+                    "audioLanguage": "en-US",
+                    "audioInsightsOnly": false
+                }
+            }
+        ]
+    }
+Output:
+    {
+        // Id of the created Transform
+        "transformId": "/subscriptions/694d5930-8ee4-4e50-917b-9dcfeceb6179/resourceGroups/AMSdemo/providers/Microsoft.Media/mediaservices/amsdemojapaneast/transforms/TestTransform"
+    }
+
+```
+*/
 //
-//              // The list of supported languages are:
-//              // 'en-US', 'en-GB', 'es-ES', 'es-MX', 'fr-FR', 'it-IT', 'ja-JP', 'pt-BR', 'zh-CN'.
-//          }
-//      }
-//  Output:
-//      {
-//          "transformId":  "Id of the Transform"
-//      }
 //
 
 using System;
@@ -52,7 +68,7 @@ namespace advanced_vod_functions_v3
         [FunctionName("CreateTransform")]
         public static IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "post", Route = null)]HttpRequest req, TraceWriter log)
         {
-            log.Info($"AMS v3 Function - CreateEmptyAsset was triggered!");
+            log.Info($"AMS v3 Function - CreateTransform was triggered!");
 
             string requestBody = new StreamReader(req.Body).ReadToEnd();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
