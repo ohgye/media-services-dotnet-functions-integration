@@ -9,12 +9,12 @@ author: shigeyf
 This section lists the functions available and describes the input and output parameters.
 This Functions example is based on AMS REST API v3 and pre-compiled functions.
 
-- [CreateEmptyAsset](#CreateEmptyAsset)
-- [CreateTransform](#CreateTransform)
-- [MonitorBlobContainerCopyStatus](#MonitorBlobContainerCopyStatus)
-- [MonitorMediaJob](#MonitorMediaJob)
-- [StartBlobContainerCopyToAsset](#StartBlobContainerCopyToAsset)
-- [SubmitMediaJob](#SubmitMediaJob)
+- [CreateEmptyAsset](#createemptyasset)
+- [CreateTransform](#createtransform)
+- [MonitorBlobContainerCopyStatus](#monitorblobcontainercopystatus)
+- [MonitorMediaJob](#monitormediajob)
+- [StartBlobContainerCopyToAsset](#startblobcontainercopytoasset)
+- [SubmitMediaJob](#submitmediajob)
 
 
 ## CreateEmptyAsset
