@@ -9,6 +9,8 @@ author: shigeyf
 This section lists the functions available and describes the input and output parameters.
 This Functions example is based on AMS REST API v3 and pre-compiled functions.
 
+# Function List
+
 - [CreateEmptyAsset](#createemptyasset)
 - [CreateTransform](#createtransform)
 - [MonitorBlobContainerCopyStatus](#monitorblobcontainercopystatus)
@@ -39,6 +41,7 @@ Output:
     }
 
 ```
+- [List](#functions-list)
 
 
 ## CreateTransform
@@ -77,6 +80,7 @@ Output:
     }
 
 ```
+- [List](#functions-list)
 
 
 ## MonitorBlobContainerCopyStatus
@@ -113,18 +117,23 @@ Output:
 	}
 
 ```
+- [List](#functions-list)
 
 
 ## MonitorMediaJob
 This function monitors media job.
-[jobState](https://docs.microsoft.com/en-us/dotnet/api/microsoft.windowsazure.mediaservices.client.jobstate?view=azure-dotnet) is returned with the following values:
-* 0 : Queued
-* 1 : Scheduled
-* 2 : Processing
-* 3 : Finished
-* 4 : Error
-* 5 : Canceled
-* 6 : Canceling
+[jobState](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.management.media.models.jobstate?view=azure-dotnet) is returned with the following values:
+
+| JobState Name | Description   |
+| ------------- | ------------- |
+| Canceled | The job was canceled. This is a final state for the job. |
+| Canceling | The job is in the process of being canceled. This is a transient state for the job. |
+| Error | The job has encountered an error. This is a final state for the job. |
+| Finished | The job is finished. This is a final state for the job. |
+| Processing | The job is processing. This is a transient state for the job. |
+| Queued | The job is in a queued state, waiting for resources to become available. This is a transient state. |
+| Scheduled | The job is being scheduled to run on an available resource. This is a transient state, between queued and processing states. |
+If jobState is "Error", the output will contain the job error information: [ErrorCode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.management.media.models.joberrorcode?view=azure-dotnet) and ErrorMessage.
 
 ```c#
 Input:
@@ -153,6 +162,7 @@ Output:
     }
 
 ```
+- [List](#functions-list)
 
 
 ## StartBlobContainerCopyToAsset
@@ -182,6 +192,7 @@ Output:
 	}
 
 ```
+- [List](#functions-list)
 
 
 ## SubmitMediaJob
@@ -210,3 +221,4 @@ Output:
     }
 
 ```
+- [List](#functions-list)
