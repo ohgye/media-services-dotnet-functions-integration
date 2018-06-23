@@ -136,8 +136,20 @@ Input:
     }
 Output:
     {
-        // Status code of the media job
-        "jobState": 0
+        // Status name of the media job
+        "jobStatus": "Finished",
+        // Status of each task/output asset in the media job
+        "jobOutputStateList": [
+            {
+                // Name of the Output Asset
+                "AssetName": "out-testasset-efbf71e8-3f80-480d-9b92-f02bef6ad4d2",
+                // Status of the media task for the Output Asset
+                "State": "Finished",
+                // Progress of the media task for the Output Asset
+                "Progress": 100
+            },
+            ...
+        ]
     }
 
 ```

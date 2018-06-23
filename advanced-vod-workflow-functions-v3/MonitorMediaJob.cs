@@ -14,8 +14,20 @@ Input:
     }
 Output:
     {
-        // Status code of the media job
-        "jobState": 0
+        // Status name of the media job
+        "jobStatus": "Finished",
+        // Status of each task/output asset in the media job
+        "jobOutputStateList": [
+            {
+                // Name of the Output Asset
+                "AssetName": "out-testasset-efbf71e8-3f80-480d-9b92-f02bef6ad4d2",
+                // Status of the media task for the Output Asset
+                "State": "Finished",
+                // Progress of the media task for the Output Asset
+                "Progress": 100
+            },
+            ...
+        ]
     }
 
 ```
@@ -44,6 +56,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using advanced_vod_functions_v3.SharedLibs;
 
@@ -89,10 +102,25 @@ namespace advanced_vod_functions_v3
                 return new BadRequestObjectResult("Error: " + e.Message);
             }
 
-            return (ActionResult)new OkObjectResult(new
+            JObject result = new JObject();
+            result["jobStatus"] = job.State.ToString();
+            JArray jobOutputStateList = new JArray();
+            foreach (JobOutputAsset o in job.Outputs)
             {
-                jobStatus = job.State
-            });
+                JObject jobOutputState = new JObject();
+                jobOutputState["AssetName"] = o.AssetName;
+                jobOutputState["State"] = o.State.ToString();
+                jobOutputState["Progress"] = o.Progress;
+                if (o.Error != null)
+                {
+                    jobOutputState["ErrorCode"] = o.Error.Code.ToString();
+                    jobOutputState["ErrorMessage"] = o.Error.Message.ToString();
+                }
+                jobOutputStateList.Add(jobOutputState);
+            }
+            result["jobOutputStateList"] = jobOutputStateList;
+
+            return (ActionResult)new OkObjectResult(result);
         }
     }
 }
