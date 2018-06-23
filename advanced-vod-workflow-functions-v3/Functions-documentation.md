@@ -133,6 +133,7 @@ This function monitors media job.
 | Processing | The job is processing. This is a transient state for the job. |
 | Queued | The job is in a queued state, waiting for resources to become available. This is a transient state. |
 | Scheduled | The job is being scheduled to run on an available resource. This is a transient state, between queued and processing states. |
+
 If jobState is "Error", the output will contain the job error information: [ErrorCode](https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.management.media.models.joberrorcode?view=azure-dotnet) and ErrorMessage.
 
 ```c#
