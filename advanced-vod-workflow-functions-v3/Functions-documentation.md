@@ -15,6 +15,7 @@ This Functions example is based on AMS REST API v3 and pre-compiled functions.
 - [CreateTransform](#createtransform)
 - [MonitorBlobContainerCopyStatus](#monitorblobcontainercopystatus)
 - [MonitorMediaJob](#monitormediajob)
+- [PublishAsset](#publishasset)
 - [StartBlobContainerCopyToAsset](#startblobcontainercopytoasset)
 - [SubmitMediaJob](#submitmediajob)
 
@@ -41,7 +42,7 @@ Output:
     }
 
 ```
-- [List](#functions-list)
+[Back to List](#functions-list)
 
 
 ## CreateTransform
@@ -80,7 +81,7 @@ Output:
     }
 
 ```
-- [List](#functions-list)
+[Back to List](#functions-list)
 
 
 ## MonitorBlobContainerCopyStatus
@@ -117,7 +118,7 @@ Output:
 	}
 
 ```
-- [List](#functions-list)
+[Back to List](#functions-list)
 
 
 ## MonitorMediaJob
@@ -163,7 +164,45 @@ Output:
     }
 
 ```
-- [List](#functions-list)
+[Back to List](#functions-list)
+
+
+## PublishAsset
+This function publishes the asset (creates a StreamingLocator for the asset).
+Predefine Streaming Policy which you can use by default are as below:
+* Predefined_ClearKey
+* Predefined_ClearStreamingOnly
+* Predefined_DownloadAndClearStreaming
+* Predefined_DownloadOnly
+* Predefined_SecureStreaming
+* Predefined_SecureStreamingWithFairPlay
+
+```c#
+Input:
+    {
+        // Name of the asset for publish
+        "assetName": "TestAssetName-180c777b-cd3c-4e02-b362-39b8d94d7a85",
+        // Name of Streaming Policy; predefined streaming policy or custom created streaming policy
+        "streamingPolicyName": "Predefined_ClearStreamingOnly",
+        // (Optional) Start DateTime of streaming the asset
+        "startDateTime": "2018-07-01T00:00Z",
+        // (Optional) End DateTime of streaming the asset
+        "endDateTime": "2018-12-31T23:59Z",
+        // (Optional) Id (UUID string) of the StreamingLocator; streamingLocatorName will be "streaminglocator-{UUID}".
+        "streamingLocatorId": "911b65de-ac92-4391-9aab-80021126d403",
+        // (Optional) Name of default ContentKeyPolicy for the StreamingLocator
+        "defaultContentKeyPolicyName": "defaultContentKeyPolicy"
+    }
+Output:
+    {
+        // Name of the created StreamingLocatorName
+        "streamingLocatorName": "streaminglocator-911b65de-ac92-4391-9aab-80021126d403",
+        // Name of the created StreamingLocatorId
+        "streamingLocatorId": "911b65de-ac92-4391-9aab-80021126d403"
+    }
+
+```
+[Back to List](#functions-list)
 
 
 ## StartBlobContainerCopyToAsset
@@ -193,7 +232,7 @@ Output:
 	}
 
 ```
-- [List](#functions-list)
+[Back to List](#functions-list)
 
 
 ## SubmitMediaJob
@@ -222,4 +261,4 @@ Output:
     }
 
 ```
-- [List](#functions-list)
+[Back to List](#functions-list)
