@@ -105,9 +105,9 @@ namespace advanced_vod_functions_v3
 				var sasUri = new Uri(response.AssetContainerSasUrls.First());
 				CloudBlobContainer destinationBlobContainer = new CloudBlobContainer(sasUri);
 
-				string blobPrefix = null;
-				bool useFlatBlobListing = true;
-				BlobContinuationToken blobContinuationToken = null;
+				//string blobPrefix = null;
+				//bool useFlatBlobListing = true;
+				//BlobContinuationToken blobContinuationToken = null;
 
 				log.Info("Checking CopyStatus of all blobs in the source container...");
 				var blobList = BlobStorageHelper.ListBlobs(destinationBlobContainer);
