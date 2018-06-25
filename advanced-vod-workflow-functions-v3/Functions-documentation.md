@@ -14,6 +14,7 @@ This Functions example is based on AMS REST API v3 and pre-compiled functions.
 - [CreateContentKeyPolicy](#createcontentkeypolicy)
 - [CreateEmptyAsset](#createemptyasset)
 - [CreateTransform](#createtransform)
+- [GetAssetUrls](#getasseturls)
 - [MonitorBlobContainerCopyStatus](#monitorblobcontainercopystatus)
 - [MonitorMediaJob](#monitormediajob)
 - [PublishAsset](#publishasset)
@@ -119,6 +120,50 @@ Output:
     {
         // Id of the created Transform
         "transformId": "/subscriptions/694d5930-8ee4-4e50-917b-9dcfeceb6179/resourceGroups/AMSdemo/providers/Microsoft.Media/mediaservices/amsdemojapaneast/transforms/TestTransform"
+    }
+
+```
+[Back to List](#functions-list)
+
+
+## GetAssetUrls
+This function provides URLs for the asset.
+
+```c#
+Input:
+    {
+        // Name of the Streaming Locator for the asset
+        "streamingLocatorName": "streaminglocator-911b65de-ac92-4391-9aab-80021126d403",
+        // (Optional) Name of the StreamingEndpoint to be used; "default" is used by default
+        "streamingEndpointName": "default",
+        // (Optional) Scheme of the streaming URL; "http" or "https", and "https" is used by default
+        "streamingUrlScheme": "https"
+    }
+Output:
+    {
+        // Path list of Progressive Download
+        "downloadPaths": [],
+        // Path list of Streaming
+        "streamingPaths": [
+            {
+                // Streaming Protocol
+                "StreamingProtocol": "Hls",
+                // Encryption Scheme
+                "EncryptionScheme": "EnvelopeEncryption",
+                // Streaming URL
+                "StreamingUrl": "https://amsv3demo-jpea.streaming.media.azure.net/6c4bb037-6907-406d-8e4d-15f91e44ac08/Ignite-short.ism/manifest(format=m3u8-aapl,encryption=cbc)"
+            },
+            {
+                "StreamingProtocol": "Dash",
+                "EncryptionScheme": "EnvelopeEncryption",
+                "StreamingUrl": "https://amsv3demo-jpea.streaming.media.azure.net/6c4bb037-6907-406d-8e4d-15f91e44ac08/Ignite-short.ism/manifest(format=mpd-time-csf,encryption=cbc)"
+            },
+            {
+                "StreamingProtocol": "SmoothStreaming",
+                "EncryptionScheme": "EnvelopeEncryption",
+                "StreamingUrl": "https://amsv3demo-jpea.streaming.media.azure.net/6c4bb037-6907-406d-8e4d-15f91e44ac08/Ignite-short.ism/manifest(encryption=cbc)"
+            }
+        ]
     }
 
 ```
