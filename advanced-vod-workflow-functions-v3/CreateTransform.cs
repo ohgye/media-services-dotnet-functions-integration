@@ -78,12 +78,6 @@ namespace advanced_vod_functions_v3
             string transformName = data.transformName;
             if (data.transformOutputs == null)
                 return new BadRequestObjectResult("Please pass transformOutputs in the input object");
-            JArray transformOutputJArray = data.transformOutputs;
-
-            //JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
-            //{
-            //    Converters = { new IsoDateTimeConverter { DateTimeFormat = "PdTHHHmmMssS" } }
-            //};
 
             MediaServicesConfigWrapper amsconfig = new MediaServicesConfigWrapper();
             string transformId = null;
@@ -99,16 +93,9 @@ namespace advanced_vod_functions_v3
                 {
                     // You need to specify what you want it to produce as an output
                     //var transformOutputList = new List<TransformOutput>();
-                    List<TransformOutput> transformOutputList = new List<TransformOutput>();
-                    if (data.transformOutputs != null)
-                    {
-                        foreach (var t in transformOutputJArray)
-                        {
-                            JsonConverter[] jsonConverters = { new PresetConverter<Preset>() };
-                            TransformOutput transformOutput = JsonConvert.DeserializeObject<TransformOutput>(t.ToString(), jsonConverters);
-                            transformOutputList.Add(transformOutput);
-                        }
-                    }
+                    JsonConverter[] jsonConverters = { new MediaServicesHelperJsonConverter() };
+                    List<TransformOutput> transformOutputList = JsonConvert.DeserializeObject<List<TransformOutput>>(data.transformOutputs.ToString(), jsonConverters);
+
                     // You need to specify what you want it to produce as an output
                     TransformOutput[] output = transformOutputList.ToArray();
                     // Create the Transform with the output defined above
