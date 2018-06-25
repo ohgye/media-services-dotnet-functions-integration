@@ -22,6 +22,7 @@ namespace advanced_vod_functions_v3.SharedLibs
 
     }
 
+#if false
     public class PresetConverter<Preset> : Newtonsoft.Json.JsonConverter
     {
         public override bool CanConvert(System.Type objectType)
@@ -141,4 +142,5 @@ namespace advanced_vod_functions_v3.SharedLibs
             writer.WriteValue(value.ToString());
         }
     }
+#endif
 }
