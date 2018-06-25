@@ -74,6 +74,15 @@ namespace advanced_vod_functions_v3.SharedLibs
                     { "#Microsoft.Media.ContentKeyPolicyX509CertificateTokenKey", typeof(ContentKeyPolicyX509CertificateTokenKey) }
                 }
             },
+            new JsonConvertionRule
+            {
+                t = typeof(ContentKeyPolicyPlayReadyContentKeyLocation),
+                convertRules = new Dictionary<string, Type>()
+                {
+                    { "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader", typeof(ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader) },
+                    { "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier", typeof(ContentKeyPolicyPlayReadyContentEncryptionKeyFromKeyIdentifier) }
+                }
+            },
             // Format
             new JsonConvertionRule
             {
