@@ -11,6 +11,7 @@ This Functions example is based on AMS REST API v3 and pre-compiled functions.
 
 # Functions List
 
+- [CreateContentKeyPolicy](#createcontentkeypolicy)
 - [CreateEmptyAsset](#createemptyasset)
 - [CreateTransform](#createtransform)
 - [MonitorBlobContainerCopyStatus](#monitorblobcontainercopystatus)
@@ -18,6 +19,46 @@ This Functions example is based on AMS REST API v3 and pre-compiled functions.
 - [PublishAsset](#publishasset)
 - [StartBlobContainerCopyToAsset](#startblobcontainercopytoasset)
 - [SubmitMediaJob](#submitmediajob)
+
+
+## CreateContentKeyPolicy
+This function creates an ContentKeyPolicy object.
+
+```c#
+Input:
+    {
+        // Name of the  Content Key Policy object
+        "contentKeyPolicyName": "SharedContentKeyPolicyForClearKey",
+        // (Optional) Description of the Content Key Policy object
+        "contentKeyPolicyDescription": "Shared toekn restricted policy for Clear Key content key policy",
+        // Options for the Content Key Policy object
+        "contentKeyPolicyOptions": [
+            {
+                "name": "ClearKeyOption",
+                "configuration": {
+                    "@odata.type": "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"
+                },
+                "restriction": {
+                    "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                    "issuer": "urn:issuer",
+                    "audience": "urn:audience",
+                    "primaryVerificationKey": {
+                        "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                        "keyValue": "AAAAAAAAAAAAAAAAAAAAAA=="
+                    },
+                    "restrictionTokenType": "Swt"
+                }
+            }
+        ]
+    }
+Output:
+    {
+        // Id of the Content Key Policy object
+        "policyId": "9d6a2b92-d61a-4e87-8348-7155c137f9ca",
+    }
+
+```
+[Back to List](#functions-list)
 
 
 ## CreateEmptyAsset
