@@ -89,7 +89,10 @@ namespace advanced_vod_functions_v3
             {
                 IAzureMediaServicesClient client = MediaServicesHelper.CreateMediaServicesClientAsync(amsconfig);
 
-                JsonConverter[] jsonConverters = { new MediaServicesHelperJsonConverter() };
+                JsonConverter[] jsonConverters = {
+                    new MediaServicesHelperJsonConverter(),
+                    new MediaServicesHelperTimeSpanJsonConverter()
+                };
                 List<ContentKeyPolicyOption> options = JsonConvert.DeserializeObject<List<ContentKeyPolicyOption>>(data.contentKeyPolicyOptions.ToString(), jsonConverters);
 
                 policy = client.ContentKeyPolicies.CreateOrUpdate(amsconfig.ResourceGroup, amsconfig.AccountName, contentKeyPolicyName, options, contentKeyPolicyDescription);

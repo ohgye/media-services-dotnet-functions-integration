@@ -23,7 +23,7 @@ namespace advanced_vod_functions_v3.SharedLibs
         public Dictionary<string, Type> convertRules;
     }
 
-    class MediaServicesHelperJsonConverter : Newtonsoft.Json.JsonConverter
+    public class MediaServicesHelperJsonConverter : Newtonsoft.Json.JsonConverter
     {
         static List<JsonConvertionRule> conversions = new List<JsonConvertionRule>
         {
@@ -156,6 +156,40 @@ namespace advanced_vod_functions_v3.SharedLibs
             }
 
             throw new NotSupportedException($"Type {targetODataType} is not supported");
+        }
+
+        public override bool CanWrite => false;
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MediaServicesHelperTimeSpanJsonConverter : Newtonsoft.Json.JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            if (typeof(TimeSpan).GetTypeInfo().Equals(objectType.GetTypeInfo())) return true;
+            else if (typeof(Nullable<TimeSpan>).GetTypeInfo().Equals(objectType.GetTypeInfo())) return true;
+            return false;
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == Newtonsoft.Json.JsonToken.Null) return null;
+
+            Type abstractType = objectType.GetTypeInfo();
+            var token = Newtonsoft.Json.Linq.JToken.ReadFrom(reader);
+            string value = token.ToString();
+            // ISO 8601 - PnYnMnDTnHnMnS
+            if (value.StartsWith("P"))
+            {
+                return System.Xml.XmlConvert.ToTimeSpan(value);
+            } else
+            {
+                return token.ToObject<TimeSpan>();
+            }
+            throw new NotImplementedException();
         }
 
         public override bool CanWrite => false;

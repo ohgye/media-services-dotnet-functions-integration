@@ -92,8 +92,10 @@ namespace advanced_vod_functions_v3
                 if (transform == null)
                 {
                     // You need to specify what you want it to produce as an output
-                    //var transformOutputList = new List<TransformOutput>();
-                    JsonConverter[] jsonConverters = { new MediaServicesHelperJsonConverter() };
+                    JsonConverter[] jsonConverters = {
+                        new MediaServicesHelperJsonConverter(),
+                        new MediaServicesHelperTimeSpanJsonConverter()
+                    };
                     List<TransformOutput> transformOutputList = JsonConvert.DeserializeObject<List<TransformOutput>>(data.transformOutputs.ToString(), jsonConverters);
 
                     // You need to specify what you want it to produce as an output
