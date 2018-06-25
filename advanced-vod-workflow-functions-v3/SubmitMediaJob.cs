@@ -33,6 +33,7 @@ Output:
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Azure.WebJobs.Host;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 using advanced_vod_functions_v3.SharedLibs;
 
@@ -80,7 +82,9 @@ namespace advanced_vod_functions_v3
             string guid = Guid.NewGuid().ToString();
             string jobName = "amsv3function-job-" + guid;
             string encoderOutputAssetName = null;
+            string audioAnalyzerOutputAssetName = null;
             string videoAnalyzerOutputAssetName = null;
+            JArray outputs = new JArray();
 
             try
             {
@@ -98,14 +102,29 @@ namespace advanced_vod_functions_v3
                 {
                     Guid assetGuid = Guid.NewGuid();
                     string outputAssetName = outputAssetNamePrefix + "-" + assetGuid.ToString();
-                    Preset p = transform.Outputs[i].Preset;
-                    if (p is BuiltInStandardEncoderPreset || p is StandardEncoderPreset)
-                        encoderOutputAssetName = outputAssetName;
-                    else if (p is VideoAnalyzerPreset)
-                        videoAnalyzerOutputAssetName = outputAssetName;
                     Asset assetParams = new Asset(null, outputAssetName, null, assetGuid, DateTime.Now, DateTime.Now, null, outputAssetName, null, assetStorageAccount, AssetStorageEncryptionFormat.None);
                     Asset outputAsset = client.Assets.CreateOrUpdate(amsconfig.ResourceGroup, amsconfig.AccountName, outputAssetName, assetParams);
                     jobOutputList.Add(new JobOutputAsset(outputAssetName));
+
+                    Preset preset = transform.Outputs[i].Preset;
+                    if (encoderOutputAssetName == null && (preset is BuiltInStandardEncoderPreset || preset is StandardEncoderPreset))
+                        encoderOutputAssetName = outputAssetName;
+                    if (audioAnalyzerOutputAssetName == null && preset is AudioAnalyzerPreset)
+                        audioAnalyzerOutputAssetName = outputAssetName;
+                    if (videoAnalyzerOutputAssetName == null && preset is VideoAnalyzerPreset)
+                        videoAnalyzerOutputAssetName = outputAssetName;
+
+                    // set up jobOutputs
+                    JObject outObject = new JObject();
+                    outObject["Preset"] = preset.ToString().Split('.').Last<string>();
+                    outObject["OutputAssetName"] = outputAssetName;
+                    if (preset is BuiltInStandardEncoderPreset || preset is StandardEncoderPreset)
+                        outObject["Category"] = "Encoder";
+                    else if (preset is AudioAnalyzerPreset || preset is VideoAnalyzerPreset)
+                        outObject["Category"] = "Analyzer";
+                    else
+                        outObject["Category"] = "Unknown";
+                    outputs.Add(outObject);
                 }
 
                 // Use the name of the created input asset to create the job input.
@@ -134,12 +153,13 @@ namespace advanced_vod_functions_v3
                 return new BadRequestObjectResult("Error: " + e.Message);
             }
 
-            return (ActionResult)new OkObjectResult(new
-            {
-                jobName = jobName,
-                encoderOutputAssetName = encoderOutputAssetName,
-                videoAnalyzerOutputAssetName = videoAnalyzerOutputAssetName
-            });
+            JObject result = new JObject();
+            result["jobName"] = jobName;
+            result["jobOutputs"] = outputs;
+            result["encoderOutputAssetName"] = encoderOutputAssetName;
+            result["videoAnalyzerOutputAssetName"] = videoAnalyzerOutputAssetName;
+            result["audioAnalyzerOutputAssetName"] = audioAnalyzerOutputAssetName;
+            return (ActionResult)new OkObjectResult(result);
         }
     }
 }
