@@ -133,7 +133,7 @@ namespace advanced_vod_functions_v3
             catch (ApiErrorException e)
             {
                 log.Info($"ERROR: AMS API call failed with error code: {e.Body.Error.Code} and message: {e.Body.Error.Message}");
-                return new BadRequestObjectResult("AMS API call error: " + e.Message);
+                return new BadRequestObjectResult("AMS API call error: " + e.Message + "\nError Code: " + e.Body.Error.Code + "\nMessage: " + e.Body.Error.Message);
             }
             catch (Exception e)
             {
